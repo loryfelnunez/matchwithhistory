@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block resto %}
+<div class="container">
+      <div class="theme">
+        <div class="row" style="height:100vh;">
+                <div class="col-md-4 col-md-offset-4" style="margin-top:10vh;">
+
+                        <form class="form-signin" action="resto_post" method="POST">
+                                <div class="form-group text-center">
+                                        <label style="font-weight:300; font-size:36px;">NAMES </label>
+                                        <br /><br />
+                                        <select class="form-control" name="cuisine">
+                                                {% for val in output %}
+                                                <option>{{ val.name }}</option>
+                                                {% endfor %}
+                                        </select>
+                                        <br /><br />
+
+                                        <button type="submit" value="Send" name="emailid-container" class="btn btn-default id-submit">Submit</button>
+                                        <p><i> Returns TOP 10 results with the most recent inspection dates </i></p>
+                                </div>
+                        </form>
+                </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}
