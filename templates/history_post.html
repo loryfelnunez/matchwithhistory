@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 {% block resto %}
-<div class="container">
-      <div class="theme">
-        <br/> <br/> <br/>
-        <div class="row" style="height:100vh;">
-                <div class="col-sm-4">
-                    {% for val in output.restos %}
-                        <p><b>{{val.label_char }}</b>: {{ val.dba }}</p>
-                        <p><i>{{ val.full_address }}</i></p>
-                    {% endfor %}
-                </div>
-                <div class="col-sm-4">
-                    <img src= {{ output.map }} />
-                </div>
+        <div class="container">
+              <div class="theme">
+                <br/> <br/> <br/>
+                <div class="row" style="height:100vh;">
+                    <p> Matches for <b>{{output.main_name}}</b></p>
+                    <table class="table table-striped table-hover">
+          <thead>
+        {% for z in output.matches %}
+            <tr>
+              <td>{{z.Name}}</td>
+                 <td>{{z.Score}}</td>
+                <td>{{z.URL}}</td>
+            </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+
         </div>
       </div>
 

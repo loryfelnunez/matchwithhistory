@@ -18,23 +18,50 @@ conn = pymysql.connect(host=SQLALCHEMY_DATABASE_URI,
                              password='wmtechmakers18',
                              db='wmtechmakers18',
                              cursorclass=pymysql.cursors.DictCursor)
-
+cursor = conn.cursor()
 
 @application.route('/')
 @application.route('/index')
-@application.route('/resto', methods=['GET'])
+@application.route('/history', methods=['GET'])
 def history():
-    cursor = conn.cursor()
     cursor.execute ("""
-                SELECT * FROM `scores_1`  
+                SELECT distinct Main_Name FROM `scores_1` order by Main_Name 
                 """)
     response = cursor.fetchall()
     all_names = []
     for r in response:
-        all_names.append(r['Name'])
+        all_names.append(r['Main_Name'])
         print (r)
     jsonresults = [{"name":n}for n in all_names]
     return render_template("history.html", output=jsonresults)
+
+
+@application.route("/history_post", methods=['POST'])
+def history_post():
+    main_name = request.form["Main_Name"]
+    print('here -----', main_name)
+    sql = "SELECT Name, Score, URL  \
+           FROM `scores_1` \
+           WHERE Main_Name = \"" + main_name + "\"  \
+           AND Name != \"" + main_name + "\"  \
+           ORDER BY score DESC"
+    cursor.execute (sql)
+    response = cursor.fetchall()
+    print (response)
+
+    results = []
+    for r in response:
+        match_result = {}
+        match_result['Name'] = r['Name']
+        match_result['URL'] = r['URL']
+        match_result['Score'] = r['Score']
+        results.append(match_result)
+
+    jsonresponse = {}
+    jsonresponse['main_name'] = main_name
+    jsonresponse['matches'] = results
+    return render_template("history_post.html", output=jsonresponse)
+
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
