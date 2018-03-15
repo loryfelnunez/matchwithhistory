@@ -33,7 +33,18 @@ def history():
         all_names.append(r['Main_Name'])
         print (r)
     jsonresults = [{"name":n}for n in all_names]
-    return render_template("history.html", output=jsonresults)
+
+    cursor.execute("""
+                    SELECT distinct Main_Name FROM `scores_2` order by Main_Name 
+                    """)
+    response2 = cursor.fetchall()
+    all_names2 = []
+    for r in response2:
+        all_names2.append(r['Main_Name'])
+        print(r)
+    jsonresults2 = [{"name": n} for n in all_names2]
+
+    return render_template("history.html", output=jsonresults, outputv2=jsonresults2)
 
 
 @application.route("/history_post", methods=['POST'])
@@ -42,6 +53,32 @@ def history_post():
     print('here -----', main_name)
     sql = "SELECT Name, Score, URL  \
            FROM `scores_3` \
+           WHERE Main_Name = \"" + main_name + "\"  \
+           AND Name != \"" + main_name + "\"  \
+           ORDER BY score DESC"
+    cursor.execute (sql)
+    response = cursor.fetchall()
+    print (response)
+
+    results = []
+    for r in response:
+        match_result = {}
+        match_result['Name'] = r['Name']
+        match_result['URL'] = r['URL']
+        match_result['Score'] = r['Score']
+        results.append(match_result)
+
+    jsonresponse = {}
+    jsonresponse['main_name'] = main_name
+    jsonresponse['matches'] = results
+    return render_template("history_post.html", output=jsonresponse)
+
+@application.route("/history_post_v2", methods=['POST'])
+def history_post_v2():
+    main_name = request.form["Main_Name"]
+    print('here -----', main_name)
+    sql = "SELECT Name, Score, URL  \
+           FROM `scores_2` \
            WHERE Main_Name = \"" + main_name + "\"  \
            AND Name != \"" + main_name + "\"  \
            ORDER BY score DESC"

@@ -7,7 +7,7 @@
 
                         <form class="form-signin" action="history_post" method="POST">
                                 <div class="form-group text-center">
-                                        <label style="font-weight:300; font-size:36px;">NAMES </label>
+                                        <label style="font-weight:300; font-size:28px;">Historical Figures - v3</label>
                                         <br /><br />
                                         <select class="form-control" name="Main_Name">
                                                 {% for val in output %}
@@ -15,13 +15,31 @@
                                                 {% endfor %}
                                         </select>
                                         <br /><br />
-
-                                        <button type="submit" value="Send" name="emailid-container" class="btn btn-default id-submit">Submit</button>
-                                        <p><i> Returns similar historical figures </i></p>
+                                        <p><i> v3 - All corpus. Filtered relevance > .60</i></p>
+                                        <button type="submit" value="Send" name="emailid-container" class="btn btn-default id-submit">Submit - v3</button>
                                 </div>
                         </form>
                 </div>
-        </div>
+
+                <div class="col-md-4 col-md-offset-4" style="margin-top:10vh;">
+
+                        <form class="form-signin" action="history_post_v2" method="POST">
+                                <div class="form-group text-center">
+                                        <label style="font-weight:300; font-size:28px;">Historical Figures - v2 </label>
+                                        <br /><br />
+                                        <select class="form-control" name="Main_Name">
+                                                {% for val in outputv2 %}
+                                                <option>{{ val.name }}</option>
+                                                {% endfor %}
+                                        </select>
+                                        <br /><br />
+                                        <p><i> v2 - Limited Corpus.  No text cleaning. No enhanced sections. </i></p>
+                                        <button type="submit" value="Send" name="emailid-container" class="btn btn-default id-submit">Submit - v2</button>
+
+                                </div>
+                        </form>
+                </div>
+
       </div>
 
     </div>
