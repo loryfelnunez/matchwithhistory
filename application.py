@@ -41,7 +41,7 @@ def history_post():
     main_name = request.form["Main_Name"]
     print('here -----', main_name)
     sql = "SELECT Name, Score, URL  \
-           FROM `scores_1` \
+           FROM `scores_3` \
            WHERE Main_Name = \"" + main_name + "\"  \
            AND Name != \"" + main_name + "\"  \
            ORDER BY score DESC"
