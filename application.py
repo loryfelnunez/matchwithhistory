@@ -25,7 +25,7 @@ cursor = conn.cursor()
 @application.route('/history', methods=['GET'])
 def history():
     cursor.execute ("""
-                SELECT distinct Main_Name FROM `scores_3` order by Main_Name 
+                SELECT distinct Main_Name FROM `scores_3` order by Main_Name where Score < .99
                 """)
     response = cursor.fetchall()
     all_names = []
